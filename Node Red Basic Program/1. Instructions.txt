@@ -1,0 +1,22 @@
+Node Red Basic Application
+Aim: 
+* The aim is to generate a NodeRED flow to generate a random number between 0 and 10 inclusive. The random number generator should start without a user having to initiate the flow and a new number should be generated every 5 seconds.
+
+* The application flow will output the following to the debug console:
+o If the random number is less than 5 then output to the debug console:
+* Number <the generated random number> is a low number
+o If the random number is 5 or higher then output to the debug console:
+* Number <the generated random number> is a high number
+Where <the generated random number> should be replaced with the random number generated
+Example:
+Number 6 is a high number
+Number 2 is a low number
+
+How to complete:
+* Deploy a NodeRED environment into your Bluemix account using the Internet of Things Platform starter. If your home Bluemix region is Sydney, you will need to move to either the United Kingdom or US South region to be able to complete the program.
+* The flow you create can use any nodes in the standard pallet available when you deploy the Bluemix boilerplate, with the addition of the Random node.
+* Your solution should not use any node that requires any other Bluemix services, such as Cloudant.
+
+Hint:
+* The program is already been completed in the “Node Red Program Code.txt”. Simply go to Node Red on your Bluemix account and import on clipboard from the menu option on the Right. 
+* Then copy paste the code from the file. 
