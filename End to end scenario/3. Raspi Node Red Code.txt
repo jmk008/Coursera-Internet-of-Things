@@ -1,0 +1,263 @@
+[
+    {
+        "id": "103f3b01.40a0e5",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "250db4b3.e66c8c",
+        "type": "inject",
+        "z": "103f3b01.40a0e5",
+        "name": "CPU temp inject",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 100,
+        "y": 180,
+        "wires": [
+            [
+                "903082f2.53088"
+            ]
+        ]
+    },
+    {
+        "id": "903082f2.53088",
+        "type": "exec",
+        "z": "103f3b01.40a0e5",
+        "command": "vcgencmd",
+        "addpay": true,
+        "append": "measure_temp",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Getting CPU temp",
+        "x": 310,
+        "y": 180,
+        "wires": [
+            [
+                "dbf5daa5.c6c2f8"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "6e1fd482.816dac",
+        "type": "debug",
+        "z": "103f3b01.40a0e5",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 850,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "311c549a.a9d85c",
+        "type": "wiotp out",
+        "z": "103f3b01.40a0e5",
+        "authType": "g",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "950be2b4.20a06",
+        "deviceType": "raspiGW",
+        "deviceId": "b39ry32web",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "pi out",
+        "x": 850,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "dbf5daa5.c6c2f8",
+        "type": "function",
+        "z": "103f3b01.40a0e5",
+        "name": "temp String to Num",
+        "func": "msg.payload = msg.payload.substring(5,9);\nmsg.payload = parseFloat(msg.payload);\nmsg.payload = {'d': {'pi_temp': msg.payload}};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 180,
+        "wires": [
+            [
+                "6e1fd482.816dac",
+                "311c549a.a9d85c"
+            ]
+        ]
+    },
+    {
+        "id": "3fefb989.e36c26",
+        "type": "rpi-sensehatsim in",
+        "z": "103f3b01.40a0e5",
+        "name": "Environment Factors",
+        "motion": false,
+        "env": true,
+        "stick": false,
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "5cacb5f4.83105c"
+            ]
+        ]
+    },
+    {
+        "id": "5cacb5f4.83105c",
+        "type": "delay",
+        "z": "103f3b01.40a0e5",
+        "name": "Limiting Messages",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "fc945630.f03668"
+            ]
+        ]
+    },
+    {
+        "id": "3bf3eed.4a9ec12",
+        "type": "wiotp out",
+        "z": "103f3b01.40a0e5",
+        "authType": "g",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "950be2b4.20a06",
+        "deviceType": "senseD",
+        "deviceId": "senb39ry32web",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "sensehat out",
+        "x": 970,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "fc945630.f03668",
+        "type": "function",
+        "z": "103f3b01.40a0e5",
+        "name": "sensehat data",
+        "func": "msg.payload = {'d': {'temperature': msg.payload.temperature, 'humidity': msg.payload.humidity}};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 700,
+        "y": 360,
+        "wires": [
+            [
+                "3bf3eed.4a9ec12"
+            ]
+        ]
+    },
+    {
+        "id": "98794190.7b641",
+        "type": "wiotp in",
+        "z": "103f3b01.40a0e5",
+        "authType": "g",
+        "deviceKey": "950be2b4.20a06",
+        "deviceType": "senseD",
+        "deviceId": "senb39ry32web",
+        "command": "+",
+        "commandType": "d",
+        "qos": 0,
+        "name": "get command",
+        "x": 90,
+        "y": 500,
+        "wires": [
+            [
+                "f5925fc1.e4e2f",
+                "1a8f2e5c.9dec62"
+            ]
+        ]
+    },
+    {
+        "id": "8c2e2c56.ad993",
+        "type": "debug",
+        "z": "103f3b01.40a0e5",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 690,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "46f6ef46.7266f",
+        "type": "rpi-sensehatsim out",
+        "z": "103f3b01.40a0e5",
+        "name": "",
+        "x": 840,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "f5925fc1.e4e2f",
+        "type": "function",
+        "z": "103f3b01.40a0e5",
+        "name": "sense hat controller",
+        "func": "var status = msg.payload.show.screen;\n\nif(status === \"on\")\n{\n    msg.payload = \"*,*,maroon\";\n}\nif(status == \"off\")\n{\n    msg.payload = \"*,*,green\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 580,
+        "wires": [
+            [
+                "46f6ef46.7266f",
+                "8c2e2c56.ad993"
+            ]
+        ]
+    },
+    {
+        "id": "1a8f2e5c.9dec62",
+        "type": "function",
+        "z": "103f3b01.40a0e5",
+        "name": "temperature tens place",
+        "func": "var status = msg.payload.show.temp;\nmsg.payload = \"1,1,silver\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 660,
+        "wires": [
+            [
+                "46f6ef46.7266f"
+            ]
+        ]
+    },
+    {
+        "id": "950be2b4.20a06",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "b39ry32web",
+        "org": "75fn7m",
+        "serverName": "",
+        "devType": "raspiGW",
+        "devId": "b39ry32web",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    }
+]
